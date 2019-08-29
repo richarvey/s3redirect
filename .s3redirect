@@ -1,5 +1,0 @@
-[s3redirect]
-AWS_ACCESS_KEY_ID=CHANGEME
-AWS_SECRET_ACCESS_KEY=CHANGEME
-bucket_name=aws-c4-url-beta
-
