@@ -48,13 +48,37 @@ header { padding: 5px 0; width: 100%; background-color: #FE2E2E; margin-bottom: 
 #headercontainer a:hover { color: #ffff33; text-decoration: none; padding-bottom: 2px; }
 #headercontainer a:active { color: #ffff33; text-decoration: none; padding-bottom: 2px; position: relative; top: 1px; }
 
+.fab, .tagline { color: #FF6000; }
+.btn {
+  background-color: #243258;      	
+  color: #FF6000;
+  padding: 15px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: none; 
+}
+
 #soon {width: 100%}
 #soon h1{font-size: 72px; text-align: center;}
 #soon {font-size: 24px; text-align: center;}
 
 section { margin-bottom: 100px; padding-top: 150px; float: left; }
 
-footer { position: relative; background-color: #333333; float: left;  margin-bottom: 0px; padding: 10px; width: 100%; font-size: 12px; }
+footer { position: relative; background-color: #333333; float: left;  botton: 0px; margin-bottom: 0px; padding: 10px; width: 100%; font-size: 12px; }
+
+#footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333333;
+  color: white;
+  padding-top: 10px;
+  text-align: center;
+}
+
 footer h1 { font-size 12px; text-decoration:none; border-bottom:1px dotted; margin-bottom: 5px;}
 footer ul {  margin-top: 20px; margin-bottom: 80px; float: left; margin-right: 40px; }
 footer ul li { display: inline; }

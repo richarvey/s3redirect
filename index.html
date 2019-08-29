@@ -6,8 +6,11 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
 </head>
 <body>
+
+	<script>new ClipboardJS('.btn');</script>
 
 <div class="fork-me-wrapper">
     <div class="fork-me">
@@ -23,17 +26,22 @@
 	    <div class="header_wrapper"></div>
     </div>
     <section id="soon">
-	    <p>#Serverless and #Databaseless URL Shortner</p>
+	    <h1>s3redirect</s3>
+	    <p class="tagline">A #Serverless and #Databaseless URL Shortner</p>
     
     <form action="https://ppm9crtlad.execute-api.eu-west-2.amazonaws.com/Prod/create" id="urlForm">
         <input type="text" name="URL" id="URL" placeholder="Enter a URL including https://" required="true">
         <input type="hidden" name="BUCKET" id="BUCKET" value="ngd.io" readonly>
         <input type="submit" id="SUBMIT" value="Submit">
     </form>
-    <br/>
+
     <!-- the result of the search will be rendered inside this div -->
     <div id="result"></div>
     </section>
+
+    <div id="footer">
+   <p><i class="fab fa-github"></i> <a href="https://github.com/richarvey/s3redirect">Github</a> <i class="fab fa-twitter"></i> <a href="https://twitter.com/ric__harvey">Twitter</a> <i class="fab fa-linkedin-in"></i> <a href="https://www.linkedin.com/in/richarvey/">Linkedin</a></p> 
+    </div>
 </div>
 
     <script>
@@ -63,7 +71,7 @@
           posting.done(function( data ) {
 	    console.log(data.UUID);
             var shortcode = data.UUID;
-		  $( "#result" ).empty().append( "<h3>Your Short URL is: <a href=http://ngd.io/"+shortcode+">http://ngd.io/"+shortcode+"</a></h3>" );
+		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://ngd.io/"+shortcode+">https://ngd.io/"+shortcode+"</a></p>" );
           });
           return true;
       } 
