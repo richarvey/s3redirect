@@ -8,6 +8,15 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
 </head>
 <body>
+
+<div class="fork-me-wrapper">
+    <div class="fork-me">
+        <a class="fork-me-link" href="https://github.com/richarvey/s3redirect">
+            <span class="fork-me-text">Fork Me On GitHub</span>
+        </a>
+    </div>
+</div>
+	
 <div id="page">
 
     <div id="header">
@@ -17,11 +26,11 @@
 	    <p>#Serverless and #Databaseless URL Shortner</p>
     
     <form action="https://ppm9crtlad.execute-api.eu-west-2.amazonaws.com/Prod/create" id="urlForm">
-        <input type="text" name="URL" id="URL" value="Enter a URL" required="true">
+        <input type="text" name="URL" id="URL" placeholder="Enter a URL including https://" required="true">
         <input type="hidden" name="BUCKET" id="BUCKET" value="ngd.io" readonly>
         <input type="submit" id="SUBMIT" value="Submit">
     </form>
-
+    <br/>
     <!-- the result of the search will be rendered inside this div -->
     <div id="result"></div>
     </section>
@@ -29,8 +38,8 @@
 
     <script>
     document.getElementById('URL').style.height="40px";
-    document.getElementById('URL').style.fontSize="24pt";
-    document.getElementById('SUBMIT').style.fontSize="24pt";
+    document.getElementById('URL').style.fontSize="18pt";
+    document.getElementById('SUBMIT').style.fontSize="18pt";
 
     // Attach a submit handler to the form
     $( "#urlForm" ).submit(function( event ) {
@@ -54,11 +63,11 @@
           posting.done(function( data ) {
 	    console.log(data.UUID);
             var shortcode = data.UUID;
-	    $( "#result" ).empty().append( "<a href=http://ngd.io/"+shortcode+">http://ngd.io/"+shortcode+"</a>" );
+		  $( "#result" ).empty().append( "<h3>Your Short URL is: <a href=http://ngd.io/"+shortcode+">http://ngd.io/"+shortcode+"</a></h3>" );
           });
           return true;
       } 
-          alert("Url is not valid!");
+          alert("Not a valid URL! Did you include http/https?");
           return false;
      });
     </script>
