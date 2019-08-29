@@ -1,10 +1,14 @@
 ## **s3redirect**
 
-A complete rewrite of a cli tool to become a fully fledge serverless and databaseless application that allows users to create tiny URL by creating Web Site Redirects using Amazon S3
+A complete rewrite of a cli tool to become a fully fledge serverless and databaseless application that allows users to create tiny URL by creating Web Site Redirects using Amazon S3.
+
+**DOCS + CLOUDFORMATION COMING SOON**
 
 ### **Requirements**
 
     AWS Account
+
+### **Lambda + API Gateway setup**
 
 ### **S3 and CloudFront setup**
 
@@ -20,5 +24,5 @@ The next set of options can be left as standard the only one that will be really
 
 Enable SSL and use ACM to generate youa  new certificate if needed.
 
-### **Deploy the lambda, the site and API Gateway**
+### **Deploy the frontend**
 
