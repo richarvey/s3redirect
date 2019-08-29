@@ -29,16 +29,18 @@ def create_redirect(s3, bucket, uuid, url, short_len):
 def lambda_handler(event, context):
     s3 = boto3.client('s3')
     short_len = 6
-    bucket = event['BUCKET']
-    uuid = get_UUID(event['URL'])
+    print(event)
+    bucket = event['body-json']['BUCKET']
+    uuid = get_UUID(event['body-json']['URL'])
     found_create = "false"
     while (found_create == 'false'):
-        short_len, url_match, found_create = check_object(s3, bucket, uuid, event['URL'], short_len, found_create)
+        short_len, url_match, found_create = check_object(s3, bucket, uuid, event['body-json']['URL'], short_len, found_create)
     if url_match == 'false':
-        create_redirect(s3, bucket, uuid, event['URL'], short_len)
+        create_redirect(s3, bucket, uuid, event['body-json']['URL'], short_len)
     return {
-        'URL' : event['URL'],
+        'URL' : event['body-json']['URL'],
         'UUID' : uuid[-short_len:],
         'SHORT' : short_len,
         'URL_MATCH' : url_match
     }
+
