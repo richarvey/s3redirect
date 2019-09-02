@@ -30,9 +30,9 @@
 	    <h1>s3redirect</s3>
 	    <p class="tagline">A #Serverless and #Databaseless URL Shortner</p>
     
-    <form action="https://vx0blslmcl.execute-api.eu-west-1.amazonaws.com/default/create" id="urlForm">
+	    <form action="<API_GATEWAY_URL>" id="urlForm">
         <input type="text" name="URL" id="URL" placeholder="Enter a URL including https://" required="true">
-        <input type="hidden" name="BUCKET" id="BUCKET" value="s3redirect" readonly>
+	<input type="hidden" name="BUCKET" id="BUCKET" value="<BUCKET_NAME>" readonly>
         <input type="submit" id="SUBMIT" value="Submit">
     </form>
 
@@ -72,7 +72,7 @@
           posting.done(function( data ) {
 	    console.log(data.UUID);
             var shortcode = data.UUID;
-		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://s3r.io/"+shortcode+" target=_blank>https://s3r.io/"+shortcode+"</a> <button class=btn data-clipboard-text='https://s3r.io/"+shortcode+"'>Copy URL</button></p>");
+		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank>https://<URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='https://<URL>/"+shortcode+"'>Copy URL</button></p>");
           });
 	  var clipboard = new ClipboardJS('.btn');
               clipboard.on('success', function(e) {
