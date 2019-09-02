@@ -49,16 +49,7 @@ header { padding: 5px 0; width: 100%; background-color: #FE2E2E; margin-bottom: 
 #headercontainer a:active { color: #ffff33; text-decoration: none; padding-bottom: 2px; position: relative; top: 1px; }
 
 .fab, .tagline { color: #FF6000; }
-.btn {
-  background-color: #243258;      	
-  color: #FF6000;
-  padding: 15px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border: none; 
-}
+.fas { color: #008000; }
 
 #soon {width: 100%}
 #soon h1{font-size: 72px; text-align: center;}

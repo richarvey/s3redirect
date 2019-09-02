@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ngd.io URL Shortener</title>
+    <title>s3r.io URL Shortener</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+    </script>
 </head>
 <body>
 
-	<script>new ClipboardJS('.btn');</script>
 
 <div class="fork-me-wrapper">
     <div class="fork-me">
@@ -29,9 +30,9 @@
 	    <h1>s3redirect</s3>
 	    <p class="tagline">A #Serverless and #Databaseless URL Shortner</p>
     
-    <form action="https://ppm9crtlad.execute-api.eu-west-2.amazonaws.com/Prod/create" id="urlForm">
+    <form action="https://vx0blslmcl.execute-api.eu-west-1.amazonaws.com/default/create" id="urlForm">
         <input type="text" name="URL" id="URL" placeholder="Enter a URL including https://" required="true">
-        <input type="hidden" name="BUCKET" id="BUCKET" value="ngd.io" readonly>
+        <input type="hidden" name="BUCKET" id="BUCKET" value="s3redirect" readonly>
         <input type="submit" id="SUBMIT" value="Submit">
     </form>
 
@@ -40,7 +41,7 @@
     </section>
 
     <div id="footer">
-   <p><i class="fab fa-github"></i> <a href="https://github.com/richarvey/s3redirect">Github</a> <i class="fab fa-twitter"></i> <a href="https://twitter.com/ric__harvey">Twitter</a> <i class="fab fa-linkedin-in"></i> <a href="https://www.linkedin.com/in/richarvey/">Linkedin</a></p> 
+	    <p><i class="fas fa-seedling"></i> <a href=https://www.patreon.com/richarvey>Plant Trees</a> <i class="fab fa-github"></i> <a href="https://github.com/richarvey/s3redirect">Github</a> <i class="fab fa-twitter"></i> <a href="https://twitter.com/ric__harvey">Twitter</a> <i class="fab fa-linkedin-in"></i> <a href="https://www.linkedin.com/in/richarvey/">Linkedin</a></p> 
     </div>
 </div>
 
@@ -57,7 +58,7 @@
       if (pattern.test(valurl)) {
           // Stop form from submitting normally
           event.preventDefault();
- 
+
           // Get some values from elements on the page:
           var $form = $( this ),
             bucket = $form.find( "input[name='BUCKET']" ).val(),
@@ -66,13 +67,17 @@
  
           // Send the data using post
           var posting = $.post( postURL, { BUCKET: bucket, URL: url } );
- 
+
           // Put the results in a div
           posting.done(function( data ) {
 	    console.log(data.UUID);
             var shortcode = data.UUID;
-		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://ngd.io/"+shortcode+">https://ngd.io/"+shortcode+"</a></p>" );
+		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://s3r.io/"+shortcode+" target=_blank>https://s3r.io/"+shortcode+"</a> <button class=btn data-clipboard-text='https://s3r.io/"+shortcode+"'>Copy URL</button></p>");
           });
+	  var clipboard = new ClipboardJS('.btn');
+              clipboard.on('success', function(e) {
+		      alert("Copied URL to clipboard");
+	      });
           return true;
       } 
           alert("Not a valid URL! Did you include http/https?");

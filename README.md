@@ -10,6 +10,78 @@ A complete rewrite of a cli tool to become a fully fledge serverless and databas
 
 ### **Lambda + API Gateway setup**
 
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:DeleteObjectTagging",
+                "s3:ListBucketByTags",
+                "s3:GetBucketTagging",
+                "s3:GetBucketWebsite",
+                "s3:GetObjectVersionTagging",
+                "s3:ListBucketVersions",
+                "s3:GetBucketLogging",
+                "s3:ListBucket",
+                "s3:GetAccelerateConfiguration",
+                "s3:GetBucketNotification",
+                "s3:GetObjectVersionTorrent",
+                "s3:PutObject",
+                "s3:GetObjectAcl",
+                "s3:GetObject",
+                "s3:PutBucketNotification",
+                "s3:PutBucketTagging",
+                "s3:GetBucketCORS",
+                "s3:GetObjectTagging",
+                "s3:PutObjectTagging",
+                "s3:DeleteObject",
+                "s3:GetBucketLocation",
+                "s3:PutObjectAcl",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<YOUR_BUCKET>/*",
+                "arn:aws:s3:::<YOUR_BUCKET>"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets",
+                "s3:HeadBucket"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+application/x-www-form-urlencoded
+
+```
+{
+    "body-json": {
+        #foreach( $token in $input.path('$').split('&') )
+            #set( $keyVal = $token.split('=') )
+            #set( $keyValSize = $keyVal.size() )
+            #if( $keyValSize >= 1 )
+                #set( $key = $util.urlDecode($keyVal[0]) )
+                #if( $keyValSize >= 2 )
+                    #set( $val = $util.urlDecode($keyVal[1]) )
+                #else
+                    #set( $val = '' )
+                #end
+                "$key": "$val"#if($foreach.hasNext),#end
+            #end
+        #end
+    }
+}
+```
+
 ### **S3 and CloudFront setup**
 
 Create an S3 bucket via the console or command line tools and enable *Static Website Hosting*. You need to enable the static website hosting to allow the 302 redirects to be served otherwise you'll just find that you don't get redirected and your browser just trys to download a null file.
