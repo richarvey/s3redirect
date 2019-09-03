@@ -72,7 +72,7 @@
           posting.done(function( data ) {
 	    console.log(data.UUID);
             var shortcode = data.UUID;
-		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank>https://<URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='https://<URL>/"+shortcode+"'>Copy URL</button></p>");
+		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank><URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='<URL>/"+shortcode+"'>Copy URL</button></p>");
           });
 	  var clipboard = new ClipboardJS('.btn');
               clipboard.on('success', function(e) {
