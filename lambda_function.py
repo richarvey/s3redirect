@@ -1,6 +1,11 @@
 import boto3, botocore
 import base64
 
+def check_safeurl(url):
+    ''' check url to make sure its not on a blocked list'''
+    return false;
+
+
 def get_UUID(url):
     ''' Takes URL encodes and strips'''
     urlSafeEncodedBytes = base64.urlsafe_b64encode(url.encode("utf-8"))
@@ -31,16 +36,22 @@ def lambda_handler(event, context):
     short_len = 6
     print(event)
     bucket = event['body-json']['BUCKET']
-    uuid = get_UUID(event['body-json']['URL'])
-    found_create = "false"
-    while (found_create == 'false'):
-        short_len, url_match, found_create = check_object(s3, bucket, uuid, event['body-json']['URL'], short_len, found_create)
-    if url_match == 'false':
-        create_redirect(s3, bucket, uuid, event['body-json']['URL'], short_len)
-    return {
-        'URL' : event['body-json']['URL'],
-        'UUID' : uuid[-short_len:],
-        'SHORT' : short_len,
-        'URL_MATCH' : url_match
-    }
-
+    is_safe = check_safeurl(event['body-json']['URL'])
+    if is_safe == 'true':
+      uuid = get_UUID(event['body-json']['URL'])
+      found_create = "false"
+      while (found_create == 'false'):
+          short_len, url_match, found_create = check_object(s3, bucket, uuid, event['body-json']['URL'], short_len, found_create)
+      if url_match == 'false':
+          create_redirect(s3, bucket, uuid, event['body-json']['URL'], short_len)
+      return {
+          'URL' : event['body-json']['URL'],
+          'UUID' : uuid[-short_len:],
+          'SHORT' : short_len,
+          'URL_MATCH' : url_match,
+          'ERROR' : false
+      }
+    else:
+      return {
+          'ERROR' : true
+      }

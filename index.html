@@ -70,16 +70,21 @@
 
           // Put the results in a div
           posting.done(function( data ) {
-	    console.log(data.UUID);
-            var shortcode = data.UUID;
-		  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank><URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='<URL>/"+shortcode+"'>Copy URL</button></p>");
-          });
-	  var clipboard = new ClipboardJS('.btn');
-              clipboard.on('success', function(e) {
-		      alert("Copied URL to clipboard");
-	      });
-          return true;
-      } 
+	      // console.log(data.UUID);
+	        var error = date.ERROR;
+	        if (error == true) {
+	          alert("suspicious URL detected not indexing");
+	        else {
+              var shortcode = data.UUID;
+		      $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank><URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='<URL>/"+shortcode+"'>Copy URL</button></p>");
+              });
+	          var clipboard = new ClipboardJS('.btn');
+                clipboard.on('success', function(e) {
+		        alert("Copied URL to clipboard");
+	          });
+            return true;
+            }
+          } 
           alert("Not a valid URL! Did you include http/https?");
           return false;
      });
