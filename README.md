@@ -1,14 +1,22 @@
 ## **s3redirect**
 
-A complete rewrite of a cli tool to become a fully fledge serverless and databaseless application that allows users to create a tiny URL by creating "Web Site Redirects" using Amazon S3, Lambda and Cloudfront.
+A complete rewrite of a cli tool to become a fully fledge serverless and databaseless application that allows users to create a tiny URL by creating "Web Site Redirects" using Amazon S3, Lambda and Cloudfront. It now supports SafeBrowsing to stop users uploading malicious URL's
 
 You can use the service hosted on https://s3r.io for free or host your own. Please consider donating to the project to help support me planting trees for climate change!
 
-**CLOUDFORMATION/CDK COMING SOON**
-
 ### **Requirements**
 
-    AWS Account
+- AWS Account
+- Power tools layer deployed 
+- Custom requestLayer (adds requests module for python)
+- ENV variables declared
+
+### **Optional Features**
+
+You can use Google's SafeBrowsing API to stop people adding bad url's to your redirector for this you'll need:
+
+- Google Cloud API key
+- SafeBrowsing API v4 enabled on your project
 
 ### **S3 and CloudFront setup**
 
@@ -110,7 +118,30 @@ Enter the following mapping into the new field. This is responsible for transfor
 }
 ```
 
-Deploy the API gateway and copy the invoke rule (API_GATEWAY_URL). you'll need this for setting up the frontend.
+Deploy the API gateway and copy the invoke rule (API_GATEWAY_URL). You'll need this for setting up the frontend.
+
+#### Variables for debug and SafeBrowsing API
+
+I've added some new features recently. The first handles debugging and uses the lambdapowertools-python layer to add tracing to the application which is useful for debug purposes as seen in the screenshot below.
+
+![AWS Console view of the Lambda Layer](images/tracing.png)
+
+In order to make this work you'll need to add some ENV variables to the Lambda Function set ``POWERTOOLS_TRACE_DISABLED`` to _false_ to see the traces in cloudwatch.
+
+I've also implimented Googles Safe Browsing API lookup as a check. This will stop people adding bad URL's to your site allowing users to be tricked into visiting them. You are going to need a Google API key to make this work. Visit here [https://developers.google.com/safe-browsing/v4/](https://developers.google.com/safe-browsing/v4/) to get one and enable the SafeBrowsing API.
+
+You'll then need to include the ENV vars for you functions of ``SafeBrowsing`` which can be _true_ or _false_ and the ``SafeBrowsing_API_KEY`` which should contain your API key from google.
+
+__N.B. You must have these variables set even if you are not using the features!!!__
+
+#### Adding the lambda layers
+
+I've added some debugging to the code and I'm using the awesome Lambda-powertools-python which can be installed with CloudFormation by clicking here: [https://serverlessrepo.aws.amazon.com/applications/eu-west-1/057560766410/aws-lambda-powertools-python-layer](https://serverlessrepo.aws.amazon.com/applications/eu-west-1/057560766410/aws-lambda-powertools-python-layer)
+
+You'll also need the python requests module, this is used to check the URL against Google Safe Browsing API. to add this create a new Lambda Layer in the console, call it _requetsLayer_ and upload the zip file called Layer.zip included in the git directory, select python 3.8 for the run time.
+
+![AWS Console view of the Lambda Layer](images/requestsLayer.png)
+
 
 ### **Deploy the frontend**
 

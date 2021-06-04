@@ -1,18 +1,33 @@
 import boto3, botocore
-import base64
+import base64, os, json, requests
 from aws_lambda_powertools import Tracer
 from aws_lambda_powertools.logging.logger import set_package_logger
 
 set_package_logger()
-
 
 # POWERTOOLS_SERVICE_NAME defined
 tracer = Tracer(service="s3r")
 
 def check_safeurl(url):
     ''' check url to make sure its not on a blocked list'''
-    return false;
-
+    if os.environ['SafeBrowsing'] == 'true':
+      api_key=os.environ['SafeBrowsing_API_KEY']
+      SBurl = "https://safebrowsing.googleapis.com/v4/threatMatches:find"
+      payload = {'client': {'clientId': "mycompany", 'clientVersion': "0.1"},
+              'threatInfo': {'threatTypes': ["SOCIAL_ENGINEERING", "MALWARE"],
+                             'platformTypes': ["ANY_PLATFORM"],
+                             'threatEntryTypes': ["URL"],
+                             'threatEntries': [{'url': url}]}}
+      params = {'key': api_key}
+      r = requests.post(SBurl, params=params, json=payload)
+      try:
+        r.json()['matches']
+        tracer.put_annotation(key="SB_ERROR", value=r.json())
+        return 'false';
+      except:
+        return 'true';
+    else:
+      return 'true';
 
 def get_UUID(url):
     ''' Takes URL encodes and strips'''
@@ -21,7 +36,6 @@ def get_UUID(url):
     y = ''.join(e for e in urlSafeEncodedStr if e.isalnum())
     return(y)
 
-@tracer.capture_method
 def check_object(s3, bucket, uuid, url, short_len, found_create):
     url_match = "false"
     try:
@@ -35,14 +49,15 @@ def check_object(s3, bucket, uuid, url, short_len, found_create):
             tracer.put_annotation(key="Status", value="MISS")
     except:
         found_create = "true"
-    
+
     return(short_len, url_match, found_create)
 
 def create_redirect(s3, bucket, uuid, url, short_len):
     uuid = uuid[-short_len:]
     s3.put_object(ACL='public-read', Bucket=bucket, Body='0', Key=uuid, WebsiteRedirectLocation=url)
 
-def lambda_handler(event, context):
+@tracer.capture_method
+def handler(event, context):
     s3 = boto3.client('s3')
     short_len = 6
     print(event)
@@ -63,10 +78,10 @@ def lambda_handler(event, context):
           'UUID' : uuid[-short_len:],
           'SHORT' : short_len,
           'URL_MATCH' : url_match,
-          'ERROR' : false
+          'ERROR' : "false"
       }
     else:
-      tracer.put_annotation(key="RETURN_Status", value="ERROR")  
+      tracer.put_annotation(key="RETURN_Status", value="ERROR")
       return {
-          'ERROR' : true
+          'ERROR' : "true"
       }
