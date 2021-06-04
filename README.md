@@ -143,6 +143,26 @@ You'll also need the python requests module, this is used to check the URL again
 ![AWS Console view of the Lambda Layer](images/requestsLayer.png)
 
 
+##### Building your own requestsLayer
+
+If you don't want to use the included layer.zip you can build your own layer. you'll need docker installed locally to run this. First create a new directory called python in the root of this repository.
+
+```bash
+mkdir python
+```
+
+You'll then need to run the command:
+
+```bash
+docker run --rm \
+--volume=$(pwd):/lambda-build \
+-w=/lambda-build \
+lambci/lambda:build-python3.8 \
+pip install -r requirements.txt --target python
+```
+
+This will install all the required componants in the python directory then produce a new layer.zip file for you to create your own layer.
+
 ### **Deploy the frontend**
 
 In this directory there are two files:
