@@ -1,4 +1,4 @@
 {
-  "BUCKET" : "ngd.io",
+  "BUCKET" : "s3redirect",
   "URL": "http://squarecows.com"
 }
