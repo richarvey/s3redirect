@@ -1,5 +1,13 @@
 import boto3, botocore
 import base64
+from aws_lambda_powertools import Tracer
+from aws_lambda_powertools.logging.logger import set_package_logger
+
+set_package_logger()
+
+
+# POWERTOOLS_SERVICE_NAME defined
+tracer = Tracer(service="s3r")
 
 def check_safeurl(url):
     ''' check url to make sure its not on a blocked list'''
@@ -13,6 +21,7 @@ def get_UUID(url):
     y = ''.join(e for e in urlSafeEncodedStr if e.isalnum())
     return(y)
 
+@tracer.capture_method
 def check_object(s3, bucket, uuid, url, short_len, found_create):
     url_match = "false"
     try:
@@ -20,8 +29,10 @@ def check_object(s3, bucket, uuid, url, short_len, found_create):
         if response['WebsiteRedirectLocation'] == url:
             url_match = "true"
             found_create = "true"
+            tracer.put_annotation(key="Status", value="HIT")
         else:
             short_len = short_len + 1
+            tracer.put_annotation(key="Status", value="MISS")
     except:
         found_create = "true"
     
@@ -42,8 +53,11 @@ def lambda_handler(event, context):
       found_create = "false"
       while (found_create == 'false'):
           short_len, url_match, found_create = check_object(s3, bucket, uuid, event['body-json']['URL'], short_len, found_create)
+      if url_match == 'true':
+          tracer.put_annotation(key="RETURN_Status", value="MATCH")
       if url_match == 'false':
           create_redirect(s3, bucket, uuid, event['body-json']['URL'], short_len)
+          tracer.put_annotation(key="RETURN_Status", value="CREATE")
       return {
           'URL' : event['body-json']['URL'],
           'UUID' : uuid[-short_len:],
@@ -52,6 +66,7 @@ def lambda_handler(event, context):
           'ERROR' : false
       }
     else:
+      tracer.put_annotation(key="RETURN_Status", value="ERROR")  
       return {
           'ERROR' : true
       }
