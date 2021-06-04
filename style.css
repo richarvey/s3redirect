@@ -188,3 +188,7 @@ footer a:active { color: #ffff33; text-decoration: none; padding-bottom: 2px; po
 .fork-me-fixed {
   position: fixed;
 }
+
+form input[type="text"] {
+    text-transform: lowercase;
+}
