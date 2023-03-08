@@ -2,7 +2,7 @@
 
 A complete rewrite of a cli tool to become a fully fledge serverless and databaseless application that allows users to create a tiny URL by creating "Web Site Redirects" using Amazon S3, Lambda and Cloudfront. It now supports SafeBrowsing to stop users uploading malicious URL's
 
-You can use the service hosted on https://s3r.io for free or host your own. Please consider donating to the project to help support me planting trees for climate change!
+You can use the service hosted on https://s3r.io for free or host your own. The objects created have 0 bytes and use metadata only to create the redirect. This means your S3 costs are VERY low.
 
 ### **Requirements**
 

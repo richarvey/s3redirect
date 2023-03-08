@@ -30,9 +30,9 @@
 	    <h1>s3redirect</s3>
 	    <p class="tagline">A #Serverless and #Databaseless URL Shortner</p>
     
-    <form action="<API_GATEWAY_URL>" id="urlForm">
+	    <form action="<API_GATEWAY_URL>" id="urlForm">
         <input type="text" name="URL" id="URL" placeholder="https://" required="true">
-	<input type="hidden" name="BUCKET" id="BUCKET" value="<BUCKET_NAME>" readonly>
+	<input type="hidden" name="BUCKET" id="BUCKET" value="<BUCKET>" readonly>
         <input type="submit" id="SUBMIT" value="Submit">
     </form>
 
@@ -41,7 +41,7 @@
     </section>
 
     <div id="footer">
-	    <p><i class="fab fa-github"></i> <a href="https://github.com/richarvey/s3redirect"></a> <i class="fab fa-mastodon"></i> <a href="https://awscommunity.social/@ric"></a> <i class="fab fa-linkedin-in"></i> <a href="https://www.linkedin.com/in/richarvey/">Linkedin</a></p> 
+	    <p><a href="https://github.com/richarvey/s3redirect"><i class="fab fa-github"></i></a> <a href="https://awscommunity.social/@ric"><i class="fab fa-mastodon"></i></a> <a href="https://www.linkedin.com/in/richarvey/"><i class="fab fa-linkedin-in"></i></a></p> 
     </div>
 </div>
 
@@ -76,7 +76,7 @@
             }
             else {
               var shortcode = data.UUID;
-	  	  $( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank><URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='<URL>/"+shortcode+"'>Copy URL</button></p>");
+				$( "#result" ).empty().append( "<p>Your Short URL is: <a href=https://<URL>/"+shortcode+" target=_blank><URL>/"+shortcode+"</a> <button class=btn data-clipboard-text='<URL>/"+shortcode+"'>Copy URL</button></p>");
             }
           });
 	  var clipboard = new ClipboardJS('.btn');
